@@ -1,0 +1,12 @@
+{
+	"ImportPath": "github.com/mlabouardy/memes-fb-bot",
+	"GoVersion": "go1.8",
+	"GodepVersion": "v79",
+	"Deps": [
+		{
+			"ImportPath": "github.com/gorilla/mux",
+			"Comment": "v1.3.0-5-g599cba5",
+			"Rev": "599cba5e7b6137d46ddf58fb1765f5d928e69604"
+		}
+	]
+}
