@@ -123,7 +123,7 @@ func main() {
 	r := mux.NewRouter()
 	r.HandleFunc("/verify", VertificationEndpoint).Methods("GET")
 	r.HandleFunc("/messages", MessagesEndpoint).Methods("POST")
-	if err := http.ListenAndServe("0.0.0.0:8000", r); err != nil {
+	if err := http.ListenAndServe("0.0.0.0:8080", r); err != nil {
 		log.Fatal(err)
 	}
 }
