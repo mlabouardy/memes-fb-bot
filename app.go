@@ -3,11 +3,10 @@ package main
 import (
 	"bytes"
 	"encoding/json"
-	"log"
-	"io/ioutil"
-	"net/http"
-	"time"
 	"fmt"
+	"io/ioutil"
+	"log"
+	"net/http"
 
 	"github.com/gorilla/mux"
 )
@@ -21,21 +20,21 @@ const (
 type Callback struct {
 	Object string `json:"object,omitempty"`
 	Entry  []struct {
-		ID        string      `json:"id,omitempty"`
-		Time      time.Time   `json:"time,omitempty"`
+		ID        int         `json:"id,omitempty"`
+		Time      int         `json:"time,omitempty"`
 		Messaging []Messaging `json:"messaging,omitempty"`
 	} `json:"entry,omitempty"`
 }
 
 type Messaging struct {
-	Sender    User      `json:"sender,omitempty"`
-	Recipient User      `json:"recipient,omitempty"`
-	Timestamp time.Time `json:"timestamp,omitempty"`
-	Message   Message   `json:"message,omitempty"`
+	Sender    User    `json:"sender,omitempty"`
+	Recipient User    `json:"recipient,omitempty"`
+	Timestamp int     `json:"timestamp,omitempty"`
+	Message   Message `json:"message,omitempty"`
 }
 
 type User struct {
-	ID string `json:"id,omitempty"`
+	ID int `json:"id,omitempty"`
 }
 
 type Message struct {
@@ -108,7 +107,10 @@ func ProcessMessage(event Messaging) {
 func MessagesEndpoint(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("is here")
 	var callback Callback
-	json.NewDecoder(r.Body).Decode(callback)
+	err := json.NewDecoder(r.Body).Decode(&callback)
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	data, _ := ioutil.ReadAll(r.Body)
 	fmt.Println(string(data))
