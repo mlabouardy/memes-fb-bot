@@ -20,7 +20,7 @@ const (
 type Callback struct {
 	Object string `json:"object,omitempty"`
 	Entry  []struct {
-		ID        int         `json:"id,omitempty"`
+		ID        string         `json:"id,omitempty"`
 		Time      int         `json:"time,omitempty"`
 		Messaging []Messaging `json:"messaging,omitempty"`
 	} `json:"entry,omitempty"`
@@ -34,7 +34,7 @@ type Messaging struct {
 }
 
 type User struct {
-	ID int `json:"id,omitempty"`
+	ID string `json:"id,omitempty"`
 }
 
 type Message struct {
