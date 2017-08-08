@@ -77,19 +77,9 @@ func VertificationEndpoint(w http.ResponseWriter, r *http.Request) {
 }
 
 func ProcessMessage(event Messaging) {
-	fmt.Println(event)
-	fmt.Println(event.Sender)
-	response := Response{
-		Recipient: event.Sender,
-		Message: Message{
-			Text : "Hello world",
-		},
-	}
-	fmt.Printf("%+v\n", response)
-	client := &http.Client{}
-	body := new(bytes.Buffer)
-	json.NewEncoder(body).Encode(&response)
-	req, err := http.NewRequest("POST", FACEBOOK_API+"?access_token=EAAbAxXjuZAdgBAGaQNmhQ5NaF8q0pEWRyFx0rZCIwKDrunKwYMofxpNj6d1ILFOW3bJyOlu9m3ZApP8HGZAqQuVzhppzqOFZBCNMyOXZB7QCgxiElv0EZA6eGKYLwIqwrRVV00ZCLnwJVeP2D811ZAv2ABRDIfYt25wVPdMYSOGcktwZDZD", body)
+	var jsonStr = []byte(`{"recipient":{"id":` + event.Sender.ID + `},"message":{"text":"hello world"}}`)
+	req, err := http.NewRequest("POST", FACEBOOK_API+"?access_token=EAAbAxXjuZAdgBAGaQNmhQ5NaF8q0pEWRyFx0rZCIwKDrunKwYMofxpNj6d1ILFOW3bJyOlu9m3ZApP8HGZAqQuVzhppzqOFZBCNMyOXZB7QCgxiElv0EZA6eGKYLwIqwrRVV00ZCLnwJVeP2D811ZAv2ABRDIfYt25wVPdMYSOGcktwZDZD", bytes.NewBuffer(jsonStr))
+
 	if err != nil {
 		fmt.Println("here")
 		log.Fatal(err)
