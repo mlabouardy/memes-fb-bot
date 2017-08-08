@@ -113,6 +113,7 @@ func MessagesEndpoint(w http.ResponseWriter, r *http.Request) {
 	data, _ := ioutil.ReadAll(r.Body)
 	fmt.Println(string(data))
 	fmt.Println(callback)
+	fmt.Pritln("goes here")
 	if callback.Object == "page" {
 		for _, entry := range callback.Entry {
 			for _, event := range entry.Messaging {
