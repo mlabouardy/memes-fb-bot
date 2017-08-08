@@ -124,9 +124,10 @@ func MessagesEndpoint(w http.ResponseWriter, r *http.Request) {
 		}
 		w.WriteHeader(200)
 		w.Write([]byte("Got your message"))
+	} else {
+		w.WriteHeader(404)
+		w.Write([]byte("Message not supported"))	
 	}
-	w.WriteHeader(404)
-	w.Write([]byte("Message not supported"))
 }
 
 func main() {
