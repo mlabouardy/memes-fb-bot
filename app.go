@@ -86,7 +86,7 @@ func ProcessMessage(event Messaging) {
 			Text : "Hello world",
 		},
 	}
-	fmt.Println(response)
+	fmt.Printf("%+v\n", response)
 	client := &http.Client{}
 	body := new(bytes.Buffer)
 	json.NewEncoder(body).Encode(&response)
