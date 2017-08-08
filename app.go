@@ -40,11 +40,11 @@ type User struct {
 type Message struct {
 	MID        string `json:"mid,omitempty"`
 	Text       string `json:"text,omitempty"`
-	QuickReply struct {
+	QuickReply *struct {
 		Payload string `json:"payload,omitempty"`
 	} `json:"quick_reply,omitempty"`
-	Attachments []Attachment `json:"attachments,omitempty"`
-	Attachment  Attachment   `json:"attachment,omitempty"`
+	Attachments *[]Attachment `json:"attachments,omitempty"`
+	Attachment  *Attachment   `json:"attachment,omitempty"`
 }
 
 type Attachment struct {
@@ -78,9 +78,19 @@ func VertificationEndpoint(w http.ResponseWriter, r *http.Request) {
 
 func ProcessMessage(event Messaging) {
 	client := &http.Client{}
-	var jsonStr = []byte(`{"recipient":{"id":` + event.Sender.ID + `},"message":{"text":"hello world"}}`)
-	req, err := http.NewRequest("POST", FACEBOOK_API+"?access_token=EAAbAxXjuZAdgBAGaQNmhQ5NaF8q0pEWRyFx0rZCIwKDrunKwYMofxpNj6d1ILFOW3bJyOlu9m3ZApP8HGZAqQuVzhppzqOFZBCNMyOXZB7QCgxiElv0EZA6eGKYLwIqwrRVV00ZCLnwJVeP2D811ZAv2ABRDIfYt25wVPdMYSOGcktwZDZD", bytes.NewBuffer(jsonStr))
-
+	response := Response{
+		Recipient: User{
+			ID: "1125206514248128",
+		},
+		Message: Message{
+			Text: "Hello world",
+		},
+	}
+	fmt.Printf("%+v\n", response)
+	body := new(bytes.Buffer)
+	json.NewEncoder(body).Encode(&response)
+	req, err := http.NewRequest("POST", FACEBOOK_API+"?access_token=EAAbAxXjuZAdgBAGaQNmhQ5NaF8q0pEWRyFx0rZCIwKDrunKwYMofxpNj6d1ILFOW3bJyOlu9m3ZApP8HGZAqQuVzhppzqOFZBCNMyOXZB7QCgxiElv0EZA6eGKYLwIqwrRVV00ZCLnwJVeP2D811ZAv2ABRDIfYt25wVPdMYSOGcktwZDZD", body)
+	req.Header.Add("Content-Type", "application/json")
 	if err != nil {
 		fmt.Println("here")
 		log.Fatal(err)
