@@ -105,8 +105,10 @@ func ProcessMessage(event Messaging) {
 }
 
 func MessagesEndpoint(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("is here")
 	var callback Callback
 	json.NewDecoder(r.Body).Decode(callback)
+	fmt.Println(callback)
 	if callback.Object == "page" {
 		for _, entry := range callback.Entry {
 			for _, event := range entry.Messaging {
