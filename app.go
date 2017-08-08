@@ -89,7 +89,7 @@ func ProcessMessage(event Messaging) {
 					URL: IMAGE,
 				},
 			},
-		}
+		},
 	}
 	fmt.Printf("%+v\n", response)
 	body := new(bytes.Buffer)
