@@ -78,9 +78,9 @@ func VertificationEndpoint(w http.ResponseWriter, r *http.Request) {
 
 func ProcessMessage(event Messaging) {
 	fmt.Println(event)
-	fmt.Println(event.Recipient)
+	fmt.Println(event.Sender)
 	response := Response{
-		Recipient: event.Recipient,
+		Recipient: event.Sender,
 		Message: Message{
 			Text : "Hello world",
 		},
