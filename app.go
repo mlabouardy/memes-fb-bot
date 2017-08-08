@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"log"
+	"io/ioutil"
 	"net/http"
 	"time"
 	"fmt"
@@ -108,6 +109,9 @@ func MessagesEndpoint(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("is here")
 	var callback Callback
 	json.NewDecoder(r.Body).Decode(callback)
+
+	data, _ := ioutil.ReadAll(r.Body)
+	fmt.Println(string(data))
 	fmt.Println(callback)
 	if callback.Object == "page" {
 		for _, entry := range callback.Entry {
