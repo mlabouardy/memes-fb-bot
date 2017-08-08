@@ -65,6 +65,9 @@ func VertificationEndpoint(w http.ResponseWriter, r *http.Request) {
 	challenge := params["hub.challenge"]
 	mode := params["hub.mode"]
 	token := params["hub.verify_token"]
+	
+	fmt.Println(params)
+	fmt.Println("im here")
 
 	if mode != "" && token == TOKEN {
 		w.WriteHeader(200)
