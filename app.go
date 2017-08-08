@@ -103,6 +103,9 @@ func ProcessMessage(event Messaging) {
 		log.Fatal(err)
 	}
 	defer resp.Body.Close()
+	
+	data, _ := ioutil.ReadAll(resp.Body)
+	fmt.Println(string(data))
 }
 
 func MessagesEndpoint(w http.ResponseWriter, r *http.Request) {
