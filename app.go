@@ -125,7 +125,7 @@ func MessagesEndpoint(w http.ResponseWriter, r *http.Request) {
 func main() {
 	r := mux.NewRouter()
 	r.HandleFunc("/verify", VertificationEndpoint).Methods("GET")
-	r.HandleFunc("/messages", MessagesEndpoint).Methods("POST")
+	r.HandleFunc("/", MessagesEndpoint).Methods("POST")
 	if err := http.ListenAndServe("0.0.0.0:8080", r); err != nil {
 		log.Fatal(err)
 	}
