@@ -62,6 +62,7 @@ type Payload struct {
 }
 
 func VertificationEndpoint(w http.ResponseWriter, r *http.Request) {
+	fmt.Println(r.URL.Query())
 	params := mux.Vars(r)
 	challenge := params["hub.challenge"]
 	mode := params["hub.mode"]
