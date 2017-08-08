@@ -4,23 +4,22 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/gorilla/mux"
 )
 
 const (
-	TOKEN        = "you know nothing, john snow"
-	FACEBOOK_API = "https://graph.facebook.com/v2.6/me/messages"
+	FACEBOOK_API = "https://graph.facebook.com/v2.6/me/messages?access_token=%s"
 	IMAGE        = "http://37.media.tumblr.com/e705e901302b5925ffb2bcf3cacb5bcd/tumblr_n6vxziSQD11slv6upo3_500.gif"
 )
 
 type Callback struct {
 	Object string `json:"object,omitempty"`
 	Entry  []struct {
-		ID        string         `json:"id,omitempty"`
+		ID        string      `json:"id,omitempty"`
 		Time      int         `json:"time,omitempty"`
 		Messaging []Messaging `json:"messaging,omitempty"`
 	} `json:"entry,omitempty"`
@@ -65,9 +64,8 @@ func VertificationEndpoint(w http.ResponseWriter, r *http.Request) {
 	challenge := r.URL.Query().Get("hub.challenge")
 	mode := r.URL.Query().Get("hub.mode")
 	token := r.URL.Query().Get("hub.verify_token")
-	fmt.Println("im here")
 
-	if mode != "" && token == TOKEN {
+	if mode != "" && token == os.Getenv("VERIFY_TOKEN") {
 		w.WriteHeader(200)
 		w.Write([]byte(challenge))
 	} else {
@@ -91,39 +89,25 @@ func ProcessMessage(event Messaging) {
 			},
 		},
 	}
-	fmt.Printf("%+v\n", response)
 	body := new(bytes.Buffer)
 	json.NewEncoder(body).Encode(&response)
-	req, err := http.NewRequest("POST", FACEBOOK_API+"?access_token=EAAbAxXjuZAdgBAGaQNmhQ5NaF8q0pEWRyFx0rZCIwKDrunKwYMofxpNj6d1ILFOW3bJyOlu9m3ZApP8HGZAqQuVzhppzqOFZBCNMyOXZB7QCgxiElv0EZA6eGKYLwIqwrRVV00ZCLnwJVeP2D811ZAv2ABRDIfYt25wVPdMYSOGcktwZDZD", body)
+	url := fmt.Sprintf(FACEBOOK_API, os.Getenv("PAGE_ACCESS_TOKEN"))
+	req, err := http.NewRequest("POST", url, body)
 	req.Header.Add("Content-Type", "application/json")
 	if err != nil {
-		fmt.Println("here")
 		log.Fatal(err)
 	}
 
 	resp, err := client.Do(req)
 	if err != nil {
-		fmt.Println("here 2")
 		log.Fatal(err)
 	}
 	defer resp.Body.Close()
-	fmt.Println("here 3")
-	data, _ := ioutil.ReadAll(resp.Body)
-	fmt.Println(string(data))
 }
 
 func MessagesEndpoint(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("is here")
 	var callback Callback
-	err := json.NewDecoder(r.Body).Decode(&callback)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	data, _ := ioutil.ReadAll(r.Body)
-	fmt.Println(string(data))
-	fmt.Println(callback)
-	fmt.Println("goes here")
+	json.NewDecoder(r.Body).Decode(&callback)
 	if callback.Object == "page" {
 		for _, entry := range callback.Entry {
 			for _, event := range entry.Messaging {
@@ -134,7 +118,7 @@ func MessagesEndpoint(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("Got your message"))
 	} else {
 		w.WriteHeader(404)
-		w.Write([]byte("Message not supported"))	
+		w.Write([]byte("Message not supported"))
 	}
 }
 
