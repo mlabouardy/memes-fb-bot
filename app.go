@@ -78,13 +78,15 @@ func VertificationEndpoint(w http.ResponseWriter, r *http.Request) {
 }
 
 func ProcessMessage(event Messaging) {
+	fmt.Println(event)
+	fmt.Println(event.Recipient)
 	response := Response{
 		Recipient: event.Recipient,
 		Message: Message{
 			Text : "Hello world",
 		},
 	}
-
+	fmt.Println(response)
 	client := &http.Client{}
 	body := new(bytes.Buffer)
 	json.NewEncoder(body).Encode(&response)
