@@ -88,7 +88,9 @@ func ProcessMessage(event Messaging) {
 	body := new(bytes.Buffer)
 	json.NewEncoder(body).Encode(&response)
 	req, err := http.NewRequest("POST", FACEBOOK_API, body)
-	req.Form.Add("access_token", "EAAbAxXjuZAdgBAGaQNmhQ5NaF8q0pEWRyFx0rZCIwKDrunKwYMofxpNj6d1ILFOW3bJyOlu9m3ZApP8HGZAqQuVzhppzqOFZBCNMyOXZB7QCgxiElv0EZA6eGKYLwIqwrRVV00ZCLnwJVeP2D811ZAv2ABRDIfYt25wVPdMYSOGcktwZDZD")
+	form, _ := url.ParseQuery(req.URL.RawQuery)
+	form.Add("access_token", "EAAbAxXjuZAdgBAGaQNmhQ5NaF8q0pEWRyFx0rZCIwKDrunKwYMofxpNj6d1ILFOW3bJyOlu9m3ZApP8HGZAqQuVzhppzqOFZBCNMyOXZB7QCgxiElv0EZA6eGKYLwIqwrRVV00ZCLnwJVeP2D811ZAv2ABRDIfYt25wVPdMYSOGcktwZDZD")
+	req.URL.RawQuery = form.Encode()
 	if err != nil {
 		fmt.Println("here")
 		log.Fatal(err)
