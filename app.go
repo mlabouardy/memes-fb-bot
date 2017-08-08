@@ -124,8 +124,8 @@ func MessagesEndpoint(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	r := mux.NewRouter()
-	r.HandleFunc("/facebook/receive", VertificationEndpoint).Methods("GET")
-	r.HandleFunc("/facebook/receive", MessagesEndpoint).Methods("POST")
+	r.HandleFunc("/webhook", VertificationEndpoint).Methods("GET")
+	r.HandleFunc("/webhook", MessagesEndpoint).Methods("POST")
 	if err := http.ListenAndServe("0.0.0.0:8080", r); err != nil {
 		log.Fatal(err)
 	}
