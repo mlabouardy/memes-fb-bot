@@ -80,11 +80,16 @@ func ProcessMessage(event Messaging) {
 	client := &http.Client{}
 	response := Response{
 		Recipient: User{
-			ID: "1125206514248128",
+			ID: event.Sender.ID,
 		},
 		Message: Message{
-			Text: "Hello world",
-		},
+			Attachment: &Attachment{
+				Type: "image",
+				Payload: Payload{
+					URL: IMAGE,
+				},
+			},
+		}
 	}
 	fmt.Printf("%+v\n", response)
 	body := new(bytes.Buffer)
