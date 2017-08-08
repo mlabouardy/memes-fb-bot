@@ -77,6 +77,7 @@ func VertificationEndpoint(w http.ResponseWriter, r *http.Request) {
 }
 
 func ProcessMessage(event Messaging) {
+	client := &http.Client{}
 	var jsonStr = []byte(`{"recipient":{"id":` + event.Sender.ID + `},"message":{"text":"hello world"}}`)
 	req, err := http.NewRequest("POST", FACEBOOK_API+"?access_token=EAAbAxXjuZAdgBAGaQNmhQ5NaF8q0pEWRyFx0rZCIwKDrunKwYMofxpNj6d1ILFOW3bJyOlu9m3ZApP8HGZAqQuVzhppzqOFZBCNMyOXZB7QCgxiElv0EZA6eGKYLwIqwrRVV00ZCLnwJVeP2D811ZAv2ABRDIfYt25wVPdMYSOGcktwZDZD", bytes.NewBuffer(jsonStr))
 
