@@ -60,7 +60,7 @@ type Payload struct {
 	URL string `json:"url,omitempty"`
 }
 
-func VertificationEndpoint(w http.ResponseWriter, r *http.Request) {
+func VerificationEndpoint(w http.ResponseWriter, r *http.Request) {
 	challenge := r.URL.Query().Get("hub.challenge")
 	mode := r.URL.Query().Get("hub.mode")
 	token := r.URL.Query().Get("hub.verify_token")
@@ -124,7 +124,7 @@ func MessagesEndpoint(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	r := mux.NewRouter()
-	r.HandleFunc("/webhook", VertificationEndpoint).Methods("GET")
+	r.HandleFunc("/webhook", VerificationEndpoint).Methods("GET")
 	r.HandleFunc("/webhook", MessagesEndpoint).Methods("POST")
 	if err := http.ListenAndServe("0.0.0.0:8080", r); err != nil {
 		log.Fatal(err)
