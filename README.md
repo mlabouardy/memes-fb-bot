@@ -1,4 +1,4 @@
-[![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
+[![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE) [![Go Report Card](https://goreportcard.com/badge/github.com/mlabouardy/memes-fb-bot)](https://goreportcard.com/report/github.com/mlabouardy/memes-fb-bot)
 
 ## How to use
 
